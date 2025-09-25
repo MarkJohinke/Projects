@@ -1,0 +1,17 @@
+name: Chore
+description: Routine maintenance task (deps, config, CI)
+labels: [chore]
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Area
+      placeholder: CI, Dependencies, Config, Docs
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What should be updated and why?
+    validations:
+      required: true
+

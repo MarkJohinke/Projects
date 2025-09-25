@@ -1,0 +1,22 @@
+name: Refactor
+description: Improve existing code without changing behavior
+labels: [refactor]
+body:
+  - type: input
+    id: scope
+    attributes:
+      label: Scope
+      placeholder: Module/file/feature to refactor
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why refactor? What issues exist now?
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Proposed approach
+      description: How will you change the code safely?
+
