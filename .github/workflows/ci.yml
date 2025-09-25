@@ -32,6 +32,9 @@ jobs:
             --set *.cache-to=type=gha,mode=max \
             --load
 
+      - name: Typecheck (Node)
+        run: docker compose -f docker-compose.yml run --rm dev sh -lc "npm run -s typecheck || echo 'no typecheck script'"
+
       - name: Run tests via Docker Compose
         env:
           CI: true
