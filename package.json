@@ -42,7 +42,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commit": "cz"
   },
   "dependencies": {
     "body-parser": "^2.2.0",
@@ -59,11 +60,17 @@
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0"
+    "@commitlint/config-conventional": "^19.5.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0"
   },
   "lint-staged": {
     "*.py": [
       "sh ./scripts/ruff-staged.sh"
+    ],
+    "*.{js,ts,mjs,cjs,json,md,mdx,yml,yaml}": [
+      "prettier --write"
     ]
-  }
+  },
+  "config": {}
 }
