@@ -1,0 +1,248 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-09-23T00:00:00.000Z",
+  "__export_source": "codex-cli",
+  "resources": [
+    {
+      "_id": "wrk_codex_mcp",
+      "_type": "workspace",
+      "name": "Codex MCP HTTP API",
+      "description": "HTTP endpoints for tools, housekeeping, DSM, and admin helpers"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_codex_mcp",
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:8765",
+        "token": ""
+      }
+    },
+    {
+      "_id": "fld_health",
+      "_type": "request_group",
+      "parentId": "wrk_codex_mcp",
+      "name": "Health"
+    },
+    {
+      "_id": "req_health",
+      "_type": "request",
+      "parentId": "fld_health",
+      "name": "GET /health",
+      "method": "GET",
+      "url": "{{ baseUrl }}/health",
+      "headers": [
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ]
+    },
+    {
+      "_id": "fld_tools",
+      "_type": "request_group",
+      "parentId": "wrk_codex_mcp",
+      "name": "Tools"
+    },
+    {
+      "_id": "req_tools_exec",
+      "_type": "request",
+      "parentId": "fld_tools",
+      "name": "POST /tools/exec",
+      "method": "POST",
+      "url": "{{ baseUrl }}/tools/exec",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"command\": \"uname -a\"\n}" }
+    },
+    {
+      "_id": "req_tools_read",
+      "_type": "request",
+      "parentId": "fld_tools",
+      "name": "POST /tools/read",
+      "method": "POST",
+      "url": "{{ baseUrl }}/tools/read",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"remotePath\": \"/etc/hostname\"\n}" }
+    },
+    {
+      "_id": "req_tools_write",
+      "_type": "request",
+      "parentId": "fld_tools",
+      "name": "POST /tools/write",
+      "method": "POST",
+      "url": "{{ baseUrl }}/tools/write",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"remotePath\": \"/tmp/mcp-test.txt\",\n  \"content\": \"hello\",\n  \"encoding\": \"utf8\"\n}" }
+    },
+    {
+      "_id": "fld_house",
+      "_type": "request_group",
+      "parentId": "wrk_codex_mcp",
+      "name": "Housekeeping"
+    },
+    {
+      "_id": "req_house_scan",
+      "_type": "request",
+      "parentId": "fld_house",
+      "name": "POST /housekeeping/scan",
+      "method": "POST",
+      "url": "{{ baseUrl }}/housekeeping/scan",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"dir\": \"/tmp\",\n  \"minSizeMB\": 1,\n  \"olderThanDays\": 1\n}" }
+    },
+    {
+      "_id": "req_house_dupes",
+      "_type": "request",
+      "parentId": "fld_house",
+      "name": "POST /housekeeping/dupes",
+      "method": "POST",
+      "url": "{{ baseUrl }}/housekeeping/dupes",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"dir\": \"/tmp\"\n}" }
+    },
+    {
+      "_id": "fld_dsm",
+      "_type": "request_group",
+      "parentId": "wrk_codex_mcp",
+      "name": "DSM"
+    },
+    {
+      "_id": "req_dsm_login",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/login",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/login",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\"\n}" }
+    },
+    {
+      "_id": "req_dsm_list",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/list",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/list",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"path\": \"/volume1\"\n}" }
+    },
+    {
+      "_id": "req_dsm_mkdir",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/mkdir",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/mkdir",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"path\": \"/volume1/public\",\n  \"name\": \"mcp-test\"\n}" }
+    },
+    {
+      "_id": "req_dsm_move",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/move",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/move",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"paths\": [\"/volume1/public/a.txt\"],\n  \"dest\": \"/volume1/public/mcp-test\",\n  \"overwrite\": false\n}" }
+    },
+    {
+      "_id": "req_dsm_delete",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/delete",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/delete",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"paths\": [\"/volume1/public/mcp-test\"],\n  \"recursive\": true\n}" }
+    },
+    {
+      "_id": "req_dsm_logout",
+      "_type": "request",
+      "parentId": "fld_dsm",
+      "name": "POST /dsm/logout",
+      "method": "POST",
+      "url": "{{ baseUrl }}/dsm/logout",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\"\n}" }
+    },
+    {
+      "_id": "fld_admin",
+      "_type": "request_group",
+      "parentId": "wrk_codex_mcp",
+      "name": "Admin"
+    },
+    {
+      "_id": "req_admin_storage",
+      "_type": "request",
+      "parentId": "fld_admin",
+      "name": "POST /admin/storage-summary",
+      "method": "POST",
+      "url": "{{ baseUrl }}/admin/storage-summary",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\"\n}" }
+    },
+    {
+      "_id": "req_admin_docker",
+      "_type": "request",
+      "parentId": "fld_admin",
+      "name": "POST /admin/docker-list",
+      "method": "POST",
+      "url": "{{ baseUrl }}/admin/docker-list",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\"\n}" }
+    },
+    {
+      "_id": "req_admin_tail",
+      "_type": "request",
+      "parentId": "fld_admin",
+      "name": "POST /admin/log-tail",
+      "method": "POST",
+      "url": "{{ baseUrl }}/admin/log-tail",
+      "headers": [
+        { "name": "Content-Type", "value": "application/json" },
+        { "name": "Authorization", "value": "Bearer {{ token }}" }
+      ],
+      "body": { "mimeType": "application/json", "text": "{\n  \"target\": \"dev\",\n  \"path\": \"/var/log/messages\",\n  \"lines\": 100\n}" }
+    }
+  ]
+}
+

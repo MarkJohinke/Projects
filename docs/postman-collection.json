@@ -1,0 +1,212 @@
+{
+  "info": {
+    "name": "Codex MCP HTTP API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "HTTP endpoints for tools, housekeeping, DSM, and admin helpers. Configure variables: baseUrl (e.g., http://localhost:8765) and token (optional)."
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] },
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ]
+      }
+    },
+    {
+      "name": "Tools",
+      "item": [
+        {
+          "name": "exec",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/tools/exec", "host": ["{{baseUrl}}"], "path": ["tools","exec"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"command\": \"uname -a\"\n}" }
+          }
+        },
+        {
+          "name": "read",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/tools/read", "host": ["{{baseUrl}}"], "path": ["tools","read"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"remotePath\": \"/etc/hostname\"\n}" }
+          }
+        },
+        {
+          "name": "write",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/tools/write", "host": ["{{baseUrl}}"], "path": ["tools","write"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"remotePath\": \"/tmp/mcp-test.txt\",\n  \"content\": \"hello\",\n  \"encoding\": \"utf8\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Housekeeping",
+      "item": [
+        {
+          "name": "scan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/housekeeping/scan", "host": ["{{baseUrl}}"], "path": ["housekeeping","scan"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"dir\": \"/tmp\",\n  \"minSizeMB\": 1,\n  \"olderThanDays\": 1\n}" }
+          }
+        },
+        {
+          "name": "dupes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/housekeeping/dupes", "host": ["{{baseUrl}}"], "path": ["housekeeping","dupes"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"dir\": \"/tmp\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "DSM",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/login", "host": ["{{baseUrl}}"], "path": ["dsm","login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\"\n}" }
+          }
+        },
+        {
+          "name": "list",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/list", "host": ["{{baseUrl}}"], "path": ["dsm","list"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"path\": \"/volume1\"\n}" }
+          }
+        },
+        {
+          "name": "mkdir (public/mcp-test)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/mkdir", "host": ["{{baseUrl}}"], "path": ["dsm","mkdir"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"path\": \"/volume1/public\",\n  \"name\": \"mcp-test\"\n}" }
+          }
+        },
+        {
+          "name": "move (example)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/move", "host": ["{{baseUrl}}"], "path": ["dsm","move"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"paths\": [\"/volume1/public/a.txt\"],\n  \"dest\": \"/volume1/public/mcp-test\",\n  \"overwrite\": false\n}" }
+          }
+        },
+        {
+          "name": "delete (public/mcp-test)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/delete", "host": ["{{baseUrl}}"], "path": ["dsm","delete"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"paths\": [\"/volume1/public/mcp-test\"],\n  \"recursive\": true\n}" }
+          }
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/dsm/logout", "host": ["{{baseUrl}}"], "path": ["dsm","logout"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "storage-summary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/storage-summary", "host": ["{{baseUrl}}"], "path": ["admin","storage-summary"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\"\n}" }
+          }
+        },
+        {
+          "name": "docker-list",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/docker-list", "host": ["{{baseUrl}}"], "path": ["admin","docker-list"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\"\n}" }
+          }
+        },
+        {
+          "name": "log-tail",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": { "raw": "{{baseUrl}}/admin/log-tail", "host": ["{{baseUrl}}"], "path": ["admin","log-tail"] },
+            "body": { "mode": "raw", "raw": "{\n  \"target\": \"dev\",\n  \"path\": \"/var/log/messages\",\n  \"lines\": 100\n}" }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8765" },
+    { "key": "token", "value": "" }
+  ]
+}
+

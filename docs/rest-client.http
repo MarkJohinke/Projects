@@ -1,0 +1,152 @@
+@baseUrl = http://localhost:8765
+@token = 
+
+### Health
+GET {{baseUrl}}/health
+Authorization: Bearer {{token}}
+
+### Tools: exec (allowed)
+POST {{baseUrl}}/tools/exec
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "command": "uname -a"
+}
+
+### Tools: read
+POST {{baseUrl}}/tools/read
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "remotePath": "/etc/hostname"
+}
+
+### Tools: write
+POST {{baseUrl}}/tools/write
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "remotePath": "/tmp/mcp-test.txt",
+  "content": "hello",
+  "encoding": "utf8"
+}
+
+### Housekeeping: scan
+POST {{baseUrl}}/housekeeping/scan
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "dir": "/tmp",
+  "minSizeMB": 1,
+  "olderThanDays": 1
+}
+
+### Housekeeping: dupes
+POST {{baseUrl}}/housekeeping/dupes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "dir": "/tmp"
+}
+
+### DSM: login
+POST {{baseUrl}}/dsm/login
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev"
+}
+
+### DSM: list
+POST {{baseUrl}}/dsm/list
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "path": "/volume1"
+}
+
+### DSM: mkdir
+POST {{baseUrl}}/dsm/mkdir
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "path": "/volume1/public",
+  "name": "mcp-test"
+}
+
+### DSM: move
+POST {{baseUrl}}/dsm/move
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "paths": ["/volume1/public/a.txt"],
+  "dest": "/volume1/public/mcp-test",
+  "overwrite": false
+}
+
+### DSM: delete
+POST {{baseUrl}}/dsm/delete
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "paths": ["/volume1/public/mcp-test"],
+  "recursive": true
+}
+
+### DSM: logout
+POST {{baseUrl}}/dsm/logout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev"
+}
+
+### Admin: storage summary
+POST {{baseUrl}}/admin/storage-summary
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev"
+}
+
+### Admin: docker list
+POST {{baseUrl}}/admin/docker-list
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev"
+}
+
+### Admin: log tail
+POST {{baseUrl}}/admin/log-tail
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "target": "dev",
+  "path": "/var/log/messages",
+  "lines": 100
+}
+

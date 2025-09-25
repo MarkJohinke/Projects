@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: MCP NAS + Local API
+  version: 1.0.0
+  description: HTTP endpoints to execute commands over SSH/SFTP on NAS targets, manage DSM File Station, perform housekeeping, and access local files.
+servers:
+  - url: http://localhost:8765
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ExecRequest:
+      type: object
+      required: [target, command]
+      properties:
+        target: { type: string, enum: [dev, personal, yoga] }
+        command: { type: string }
+    ReadRequest:
+      type: object
+      required: [target, remotePath]
+      properties:
+        target: { type: string, enum: [dev, personal, yoga] }
+        remotePath: { type: string }
+    WriteRequest:
+      type: object
+      required: [target, remotePath, content]
+      properties:
+        target: { type: string }
+        remotePath: { type: string }
+        content: { type: string }
+        encoding: { type: string, enum: [utf8, base64], default: utf8 }
+    ScanRequest:
+      type: object
+      required: [target, dir]
+      properties:
+        target: { type: string }
+        dir: { type: string }
+        minSizeMB: { type: integer, default: 250 }
+        olderThanDays: { type: integer, default: 365 }
+    LocalPath:
+      type: object
+      required: [localPath]
+      properties:
+        localPath: { type: string }
+    LocalWrite:
+      allOf:
+        - $ref: '#/components/schemas/LocalPath'
+        - type: object
+          required: [content]
+          properties:
+            content: { type: string }
+            encoding: { type: string, enum: [utf8, base64], default: utf8 }
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200': { description: OK }
+  /tools/exec:
+    post:
+      summary: Execute SSH command on a target
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ExecRequest' }
+      responses:
+        '200': { description: Result }
+  /tools/read:
+    post:
+      summary: Read file via SFTP or SSH fallback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReadRequest' }
+      responses:
+        '200': { description: Content }
+  /tools/write:
+    post:
+      summary: Write file via SFTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/WriteRequest' }
+      responses:
+        '200': { description: OK }
+  /tools/delete:
+    post:
+      summary: Delete a remote file via SFTP
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReadRequest' }
+      responses:
+        '200': { description: OK }
+  /housekeeping/scan:
+    post:
+      summary: List large/old files in a directory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ScanRequest' }
+      responses:
+        '200': { description: Items }
+  /dsm/login:
+    post:
+      summary: DSM login (File Station session)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [target]
+              properties:
+                target: { type: string }
+      responses:
+        '200': { description: SID }
+  /dsm/list:
+    post:
+      summary: DSM list folder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [target, path]
+              properties:
+                target: { type: string }
+                path: { type: string }
+      responses:
+        '200': { description: Listing }
+  /admin/storage-summary:
+    post:
+      summary: Storage summary (df, mdstat)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [target]
+              properties:
+                target: { type: string }
+      responses:
+        '200': { description: OK }
+  /admin/docker-list:
+    post:
+      summary: Docker containers (if available)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [target]
+              properties:
+                target: { type: string }
+      responses:
+        '200': { description: OK }
+  /local/read:
+    post:
+      summary: Read a local file (server host)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LocalPath' }
+      responses:
+        '200': { description: OK }
+  /local/write:
+    post:
+      summary: Write a local file (server host)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LocalWrite' }
+      responses:
+        '200': { description: OK }
+  /local/delete:
+    post:
+      summary: Delete a local file (server host)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LocalPath' }
+      responses:
+        '200': { description: OK }
+

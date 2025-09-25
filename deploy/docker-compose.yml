@@ -1,0 +1,17 @@
+# Docker Compose for Synology MCP HTTP server (DSM + Tailscale Funnel)
+# Usage (on the NAS):
+#   docker compose -f docker-compose.yml up -d
+# Adjust the bound shared folder path if different from /volume1/Files
+
+services:
+  mcp-http:
+    build:
+      context: ../synology-mcp-http
+      dockerfile: Dockerfile
+    container_name: mcp-http
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - NAS_PATH=/nas
+    volumes:
+      - ${NAS_SHARE_PATH:-/volume1/Projects}:/nas:rw

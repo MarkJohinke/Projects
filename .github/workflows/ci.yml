@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compose-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Docker versions
+        run: |
+          docker version
+          docker compose version
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build images with cache (load to Docker)
+        run: |
+          docker buildx bake \
+            -f docker-compose.yml \
+            --set *.cache-from=type=gha \
+            --set *.cache-to=type=gha,mode=max \
+            --load
+
+      - name: Run tests via Docker Compose
+        env:
+          CI: true
+        run: make compose-test
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Docker versions
+        run: |
+          docker version
+          docker compose version
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build images with cache (load to Docker)
+        run: |
+          docker buildx bake \
+            -f docker-compose.yml \
+            --set *.cache-from=type=gha \
+            --set *.cache-to=type=gha,mode=max \
+            --load
+
+      - name: Run linters via Docker Compose
+        env:
+          CI: true
+        run: make compose-lint

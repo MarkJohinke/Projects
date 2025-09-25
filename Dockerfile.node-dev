@@ -1,0 +1,18 @@
+FROM node:20-alpine
+
+# Pin PNPM version
+ARG PNPM_VERSION=9.12.3
+
+ENV PNPM_HOME=/usr/local/share/pnpm \
+    PATH="/usr/local/share/pnpm:${PATH}" \
+    NODE_ENV=development
+
+RUN apk add --no-cache git bash openssh && \
+    corepack enable && \
+    corepack prepare pnpm@${PNPM_VERSION} --activate
+
+WORKDIR /work
+
+# Default to an interactive shell
+CMD ["sh"]
+

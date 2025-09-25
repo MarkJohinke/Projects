@@ -1,0 +1,19 @@
+FROM python:3.12-alpine
+
+ARG POETRY_VERSION=1.8.3
+
+ENV PYTHONUNBUFFERED=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# System deps useful for building many Python packages
+RUN apk add --no-cache bash curl git build-base libffi-dev openssl-dev
+
+# Install Poetry pinned
+RUN python -m pip install --upgrade pip && \
+    python -m pip install "poetry==${POETRY_VERSION}"
+
+WORKDIR /work
+
+CMD ["sh"]
+

@@ -1,0 +1,25 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.node-dev
+    working_dir: /work
+    volumes:
+      - ./:/work
+    environment:
+      - NODE_ENV=development
+    tty: true
+    stdin_open: true
+    command: sh
+  python:
+    build:
+      context: .
+      dockerfile: Dockerfile.python-dev
+    working_dir: /work
+    volumes:
+      - ./:/work
+    environment:
+      - PYTHONUNBUFFERED=1
+    tty: true
+    stdin_open: true
+    command: sh

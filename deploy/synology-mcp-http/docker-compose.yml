@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  synology-mcp-http:
+    build: ../../synology-mcp-http
+    image: synology-mcp-http:local
+    container_name: synology-mcp-http
+    environment:
+      - NAS_PATH=/data
+    volumes:
+      - ${HOST_SHARE_PATH}:/data:ro
+    ports:
+      - "${HOST_PORT:-8765}:8765"
+    restart: unless-stopped
+
