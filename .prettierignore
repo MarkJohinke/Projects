@@ -1,0 +1,8 @@
+node_modules/
+build/
+dist/
+coverage/
+.tmp/
+Scripts/**/*.ps1
+Python313/
+

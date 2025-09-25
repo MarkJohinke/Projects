@@ -28,7 +28,6 @@
     "dsm:move": "node scripts/dsm-move.js",
     "dsm:delete": "node scripts/dsm-delete.js",
     "admin:tail": "node scripts/admin-tail.js",
-    "admin:docker": "node scripts/admin-storage.js --url http://localhost:8765 && echo 'Use /admin/docker-list via curl or add helper if needed'",
     "ws:read": "node scripts/ws-read.js",
     "ws:exec": "node scripts/ws-exec.js",
     "ws:tools": "node scripts/ws-tools.js",
@@ -38,7 +37,10 @@
     "local:read": "node scripts/local-read.js",
     "local:write": "node scripts/local-write.js",
     "local:delete": "node scripts/local-delete.js",
-    "report:full": "node scripts/full-report.js"
+    "report:full": "node scripts/full-report.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "body-parser": "^2.2.0",

@@ -1,0 +1,25 @@
+line-length = 100
+target-version = "py312"
+
+select = [
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort
+  "B",  # flake8-bugbear
+  "UP", # pyupgrade
+  "ARG" # unused arguments
+]
+
+ignore = [
+  # Add rule codes to ignore here if needed
+]
+
+exclude = [
+  "Python313",
+  ".venv",
+  "node_modules",
+  ".tmp",
+  "build",
+  "dist"
+]
+
