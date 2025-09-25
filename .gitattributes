@@ -1,0 +1,30 @@
+* text=auto eol=lf
+
+# Preserve CRLF for Windows shell scripts
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Always LF for Unix scripts and configs
+*.sh text eol=lf
+*.bash text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.py text eol=lf
+Dockerfile text eol=lf
+
+# Treat images/binaries as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary
+*.7z binary
+

@@ -1,7 +1,7 @@
 # Projects Overview
 
-[![CI](https://github.com/MarkJohinke/projects/actions/workflows/ci.yml/badge.svg)](https://github.com/MarkJohinke/projects/actions/workflows/ci.yml)
-[![Lint](https://github.com/MarkJohinke/projects/actions/workflows/lint.yml/badge.svg)](https://github.com/MarkJohinke/projects/actions/workflows/lint.yml)
+[![CI](https://github.com/MarkJohinke/Projects/actions/workflows/ci.yml/badge.svg)](https://github.com/MarkJohinke/Projects/actions/workflows/ci.yml)
+[![Lint](https://github.com/MarkJohinke/Projects/actions/workflows/lint.yml/badge.svg)](https://github.com/MarkJohinke/Projects/actions/workflows/lint.yml)
 
 Last updated: 2025-09-25
 
