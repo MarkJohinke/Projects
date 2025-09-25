@@ -1,0 +1,22 @@
+name: Documentation update
+description: Improve or correct documentation
+labels: [documentation]
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Area
+      placeholder: README, docs/, comments, usage examples
+  - type: textarea
+    id: change
+    attributes:
+      label: What should change?
+      description: Describe the update and where it appears today
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context / references
+      description: Links, screenshots, or related issues/PRs
+

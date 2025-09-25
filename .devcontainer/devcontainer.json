@@ -1,0 +1,28 @@
+{
+  "name": "Projects Dev",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/work",
+  "runServices": ["dev"],
+  "overrideCommand": true,
+  "postCreateCommand": "pnpm install --frozen-lockfile || npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "files.eol": "\n"
+      }
+    }
+  }
+}
+

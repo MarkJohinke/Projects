@@ -9,7 +9,9 @@
     "sourceType": "module"
   },
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "prettier"
   ],
   "ignorePatterns": [
     "node_modules/",
@@ -21,7 +23,14 @@
   "rules": {
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "no-undef": "error",
-    "no-console": "off"
+    "no-console": "off",
+    "import/order": [
+      "warn",
+      {
+        "groups": [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ]
   }
 }
-
